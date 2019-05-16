@@ -1,0 +1,43 @@
+<div class="bg-primary">
+    <div class="display-1 text-center text-danger">Encounter!</div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h3 class="text-center text-success">
+                <%= player.name %> LVL <%= player.lvl %>
+        </h3>
+        <div class="text-center">
+            <% switch (player.pclass){
+                case "Warrior": %>
+                    <img src="../img/warrior.jpeg" class="img-fluid" style="height: 15rem;" alt="Warrior" >
+                <% break; %>
+                <% case "Mage": %>
+                    <img src="../img/mage.jpg" class="img-fluid" style="height: 15rem;" alt="Mage" >
+                <% break; %>
+                <% case "Gunner": %>
+                    <img src="../img/gunner.jpg" class="img-fluid img-thumbnail" style="height: 15rem;" alt="Gunner" >
+                <% break; %>            
+            <% } %>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="progress my-3">
+            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= player.str * 15%>">  </div>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= player.str * 15%>">  </div>
+        </div>
+        <div class="h-75"></div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= player.str * 15%>">  </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3 class="text-center text-danger">
+                <%= mob.name %> LVL <%= player.lvl %>
+        </h3>
+        <div class="text-center">
+            <img src="/<%= mob.img %>" class="img-fluid" style="height: 15rem;" alt="<%= mob.name %>">
+        </div>
+    </div>
+</div>

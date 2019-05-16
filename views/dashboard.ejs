@@ -1,0 +1,49 @@
+
+<% include ./partials/navigation %>
+<% include ./partials/messages %>
+<% if (user.isStaff === true) { %>
+    <!-- ADMIN STATUS -->
+    <div class=" fixed-bottom text-primary text-center bg-success">
+        GODMODE ENABLED
+    </div>
+    <% } %>
+    <p class="lead text-capitalize mb-3">Welcome <%= user.name %>!</p>
+    <% if(typeof user.usersPlayers !== 'undefined' && user.usersPlayers.length > 0){ %>
+        <% include ./partials/players %>
+        <button class="btn btn-outline-info my-3 btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+            Create Character
+        </button>
+        <div class="row">
+            <div class="col-3 mx-auto">
+            <form id="j_enter_form" action="/game/" method="GET">
+                <input hidden class="j_enter_player" name="player_id" id="player_id" value="">
+                <input hidden class="j_enter_user" name="user_id" id="user_id" value="<%= user.id %>">
+                <input value="Enter" role="button" type="submit" class="btn  btn-block my-3 btn-outline-danger"/>
+                
+            </form>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="alert rounded alert-danger" role="alert">
+            <strong>Holy Guacamole!</strong>
+            <a href="#!" class="alert-link" data-toggle="modal" data-target="#exampleModalCenter">
+                Create A Player
+            </a>
+            and join the party!
+        </div>
+        <% include ./partials/players %>
+        <div class="row">
+            <div class="col-4 ">
+                <a aria-disabled="true" href="#" role="button" class="btn my-3 disabled btn-outline-info btn-sm">
+                    Create Character
+                </a>
+            </div>
+        </div>
+        <div class="row h-100 align-items-end">
+            <div class="col-3 mt-3 mx-auto">
+                <a href="#" role="button" class="btn btn-block disabled btn-dark" aria-disabled="true">Enter</a>
+        </div>
+    </div>
+    <% } %>
+    <script src='/scripts/enter.js'> </script>
+<% include ./partials/player_form %>
