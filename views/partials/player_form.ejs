@@ -1,4 +1,16 @@
 <!-- Modal -->
+<script>
+  function changeDesc(select) {
+    let selected = $("#"+select.value);
+    let selectedImg = $("#"+select.value+"img");
+    let selectedTable = $("#"+select.value+"table");
+    $(".class-desc, .class-img, .class-table").addClass('d-none');
+    selected.removeClass('d-none');
+    selectedImg.removeClass('d-none');
+    selectedTable.removeClass('d-none');
+
+  }
+  </script>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -10,7 +22,6 @@
         </button>
       </div>
       <div class="modal-body">
-
         <form action="/dashboard" method="post">
           <div class="form-group">
             <label for="name">Username</label>
@@ -21,16 +32,27 @@
           </div>
           <div class="form-group">
             <label for="pclass">Class</label>
-            <select id='pclass' aria-describedby="classHelp" name="pclass" class="form-control form-control-sm">
-              <option value="Warrior">Warrior</option>
-              <option value="Mage">Mage</option>
-              <option value="Gunner">Gunner</option>
+            <select id='pclass' aria-describedby="classHelp" onchange="changeDesc(this);" name="pclass" class="form-control form-control-sm">
+                <option>Choose Class</option>
+              <% if (classes) { %>
+                <% classes.forEach( pclass => { %>
+                  <option value="<%= pclass.name %>"><%= pclass.name %></option>
+                <% });%>
+              <% } %>
             </select>
             <small id="classHelp" class="form-text text-muted">Choose wisely</small>
+            <%  classes.forEach( pclass => {%>
+              <small id="<%= pclass.name %>" class="form-text class-desc d-none"><%= pclass.desc %></small>
+            <% });%>
+            <%  classes.forEach( pclass => {%>
+              <% include ./class_stats_modal %>
+            <% });%>
+            <%  classes.forEach( pclass => {%>
+              <img src="/<%= pclass.img %>" id="<%= pclass.name %>img" class="class-img mx-auto d-none img-fluid" style="height: 15rem;" alt="<%= pclass.name %>">
+            <% });%>
           </div>
           <button type="submit" class="btn mt-3 btn-primary">Submit</button>
         </form>
-      
       </div>
     </div>
   </div>

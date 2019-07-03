@@ -1,43 +1,121 @@
-<div class="bg-primary">
-    <div class="display-1 text-center text-danger">Encounter!</div>
-</div>
+
 <div class="row">
     <div class="col-md-4">
         <h3 class="text-center text-success">
-                <%= player.name %> LVL <%= player.lvl %>
+                <%= player.name %> LVL <%= pstats.get('lvl') %>
         </h3>
         <div class="text-center">
-            <% switch (player.pclass){
-                case "Warrior": %>
-                    <img src="../img/warrior.jpeg" class="img-fluid" style="height: 15rem;" alt="Warrior" >
-                <% break; %>
-                <% case "Mage": %>
-                    <img src="../img/mage.jpg" class="img-fluid" style="height: 15rem;" alt="Mage" >
-                <% break; %>
-                <% case "Gunner": %>
-                    <img src="../img/gunner.jpg" class="img-fluid img-thumbnail" style="height: 15rem;" alt="Gunner" >
-                <% break; %>            
-            <% } %>
+                <img src="/<%= pclass.get('img') %>" id="<%= pclass.get('name') %>img" class="class-img mx-auto img-fluid" style="height: 15rem;" alt="<%= pclass.get('name') %>">
         </div>
     </div>
+    <div class="d-none">
+        <input hidden id="str" value="<%=pstats.strength%>"/>
+        <input hidden id="int" value="<%=pstats.intellegence%>"/>
+        <input hidden id="wis" value="<%=pstats.wisdom%>"/>
+        <input hidden id="agi" value="<%=pstats.agility%>"/>
+        <input hidden id="lck" value="<%=pstats.luck%>"/>
+    </div>
     <div class="col-md-4">
-        <div class="progress my-3">
-            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= player.str * 15%>">  </div>
+        <div class="d-flex flex-column">
+            <div>
+                <h5 class="text-center text-success"><%= player.name %>'s Health</h5>
+                <div class="progress my-3">
+                    <div id="j_my-hp" class="progress-bar active progress-bar-striped bg-success"  role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= pstats.str * 15%>">  </div>
+                </div>
+            </div>
+            <div>
+                <h5 class="text-center text-info"><%= player.name %>'s Mana</h5>
+                <div class="progress">
+                    <div id="j_my-mp" class="progress-bar active progress-bar-striped bg-info"  role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= pstats.int * 15%>">  </div>
+                </div>
+            </div>
         </div>
+
+        <div class="h-25"></div>
+        <h5 class="text-center text-danger"><%= mob.name %>'s Health</h5>
         <div class="progress">
-            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= player.str * 15%>">  </div>
-        </div>
-        <div class="h-75"></div>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= player.str * 15%>">  </div>
+            <div id="j_mob-hp"class="progress-bar active progress-bar-striped bg-danger"  role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="<%= pstats.str * 15%>">  </div>
         </div>
     </div>
     <div class="col-md-4">
         <h3 class="text-center text-danger">
-                <%= mob.name %> LVL <%= player.lvl %>
+            <%= mob.name %> LVL <%= pstats.lvl %>
         </h3>
         <div class="text-center">
-            <img src="/<%= mob.img %>" class="img-fluid" style="height: 15rem;" alt="<%= mob.name %>">
+            <img src="/assets/<%= mob.img %>" class="img-fluid" style="height: 15rem;" alt="<%= mob.name %>">
+        </div>
+    </div>
+    <div style="height: 1rem; width:100%"></div>
+    <div class="col-md-3">
+            <div class="bg-primary">
+                <button id="j_strike" class="btn btn-block btn-sm btn-outline-danger">Strike</button>
+            </div>
+    </div>
+    <div class="col-md-3">
+            <div class="bg-primary">
+                    <button id="j_conjure" class="btn btn-block btn-sm btn-outline-info">Conjure</button>
+            </div>
+    </div>
+    <div class="col-md-3">
+            <div class="bg-primary">
+                    <button id="j_evade"  class="btn btn-block btn-sm btn-outline-warning">Evade</button>
+            </div>
+    </div>
+    <div class="col-md-3">
+            <div class="bg-primary">
+                    <button id="j_skip" class="btn btn-block btn-sm  btn-outline-secondary">Skip</button>
+            </div>
+    </div>
+    <div class="offset-md-3 col-md-6 my-4 mb-0">
+            <h5 id="j_actions" class="text-center"></h5>
+    </div>
+    <div class="offset-md-3 col-md-6 mb-3">
+        <div class="bg-primary"><button  id="j_turn" class="btn btn-block  btn-outline-success">End Turn</button></div>
+    </div>
+    <div class="col-md-12 my-2">
+        <div class="bg-primary" style="height:20rem; overflow-y:scroll;">
+            <h5 class="text-center text-warning">Log:</h5>
+            <div id="log-area"></div>
         </div>
     </div>
 </div>
+
+<div class="modal fade loserModal" id="loserModal"tabindex="-1" role="dialog" aria-labelledby="loserModal" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title text-danger text-center" id="exampleModalCenterTitle">You Died!</h3>
+          </div>
+          <div class="modal-body">
+              <p class="lead"> You Have Died And Your Character Will Be Deleted!</p>
+            <form action="/delete_player" method="post">
+                <input type="hidden" name="player_delete_id" value="<%=player._id%>">
+                <input type="submit" role="btn" class="btn btn-lg btn-outline-danger" value="Confirm">
+            </form>
+          </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade winnerModal" id="winnerModal" tabindex="-1" role="dialog" aria-labelledby="winnerModal" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title text-success text-center" id="exampleModalCenterTitle">Winner!</h3>
+          </div>
+          <div class="modal-body">
+            <p class="lead">You Are Victorious, Go On, Tell Everybody At The Guild</p>
+            <form action="/game/winner" method="post">
+                    <input type="hidden" name="player_id" value="<%=player._id%>">
+                    <input type="hidden" name="mob_name" value="<%= mob.name %>">
+                    <input type="submit" role="btn" class="btn btn-lg btn-outline-danger" value="Confirm">
+            </form>
+          </div>
+    </div>
+  </div>
+</div>
+<script src="/assets/scripts/encounter.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>

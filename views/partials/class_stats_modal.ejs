@@ -1,0 +1,30 @@
+<table class="table d-none class-table table-striped table-sm table-hover table-dark" id="<%= pclass.name %>table">
+    <thead>
+        <tr>
+            <th scope="col">Stat</th>
+            <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Strength</th>
+            <td><%= pclass.stats.get("Strength") %></td>
+        </tr>
+        <tr>
+            <th scope="row">Agilty</th>
+            <td><%= pclass.stats.get("Agility") %></td>
+        </tr>
+        <tr>
+            <th scope="row">Intellegence</th>
+            <td><%= pclass.stats.get("Intellegence") %></td>
+        </tr>
+        <tr>
+            <th scope="row">Wisdom</th>
+            <td><%= pclass.stats.get("Wisdom") %></td>
+        </tr>
+        <tr>
+            <th scope="row">Luck</th>
+            <td><%= pclass.stats.get("Luck") %></td>
+        </tr>
+    </tbody>
+</table>

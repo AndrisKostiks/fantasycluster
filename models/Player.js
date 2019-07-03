@@ -7,46 +7,34 @@ const PlayerSchema = Schema({
         type: String,
         required: true
     },
-    pclass: {
-        type: String,
-        default: 'Warrior'
-    },
-    strength: {
-        type: Number,
-        default: 1
-    },
-    agility: {
-        type: Number,
-        default: 1
-    },
-    intellegence: {
-        type: Number,
-        default: 1
-    },
-    wisdom: {
-        type: Number,
-        default: 1
-    },
-    luck: {
-        type: Number,
-        default: 1
-    },
-    exp: {
-        type: Number,
-        default: 1
-    },
-    lvl: {
-        type: Number,
-        default: 1
-    },
-    date: {
+    dateCreated: {
         type: Date,
         default: Date.now
     },
-    playersUser: [{
+    playersClass: {
+        type: Schema.Types.ObjectId,
+        ref: 'Class'
+    },
+    playersUser: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }],
+    },
+    playersInventory: {
+        type: Schema.Types.ObjectId,
+        ref: 'Inventory'
+    },
+    playersStats: {
+        type: Schema.Types.ObjectId,
+        ref: 'Stats'
+    },
+    playersQL: {
+        type: Schema.Types.ObjectId,
+        ref: 'QL'
+    },
+    playersEquipment: {
+        type: Schema.Types.ObjectId,
+        ref: 'Equipment'
+    },
 });
 
 const Player = mongoose.model('Player', PlayerSchema);

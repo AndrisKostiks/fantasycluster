@@ -16,8 +16,9 @@ const app = express();
 
 // DB
 const db = require('./config/keys').MongoURI;
-
 // Connect Mongo
+console.log('hello');
+
 mongoose.connect(db, { useNewUrlParser: true })
     .then(() => console.log('MongoBD Connected...'))
     .catch(err => console.log(err));
@@ -28,7 +29,7 @@ app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
 // STATICFILES
-app.use(express.static(path.join(__dirname, 'assets')))
+app.use(express.static(__dirname))
 
 // BodyParser
 app.use(express.urlencoded({ extended: false }));

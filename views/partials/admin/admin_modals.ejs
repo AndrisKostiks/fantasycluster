@@ -1,5 +1,5 @@
-<%# MOBS %>
-<div class="modal fade user-create-modal" tabindex="-1" role="dialog" aria-labelledby="user-create-modal" aria-hidden="true">
+<%# MOBS CREATE %>
+<div class="modal fade mob-create-modal" tabindex="-1" role="dialog" aria-labelledby="mob-create-modal" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -16,7 +16,7 @@
           </div>
           <div class="form-group">
             <label for="image">Choose Mob Image</label>
-            <input type="file" class="form-control-file" name="image" accept="image/*" id="image">
+            <input type="file" class="form-control-file" name="image" onchange="readURL(this);" accept="image/*" id="image">
           </div>
           <input type="submit" class="btn btn-lg btn-success" value="CREATE">
         </form>
@@ -24,22 +24,204 @@
     </div>
   </div>
 </div>
-<%# USERS %>
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div class="modal fade mob-look-modal" tabindex="-1" role="dialog" aria-labelledby="mob-look-modal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Mob Look Trough</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <% if (mobs) { %>
+               <table class="table table-striped table-sm table-hover table-dark">
+                 <thead>
+                  
+                    <th scope="col">Mob</th>
+                    <th scope="col">Img Path</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                 </thead>
+                 <tbody>
+                    <%mobs.forEach(element => { %>
+                      <tr>
+                        <td><%=element.name%></td>
+                        <td><%=element.img%></td>
+                        <td>
+                          <form action="" method="post">
+                            <input type="submit" value="Edit">
+                          </form>
+                        </td>
+                        <td>
+                            <form action="" method="post">
+                                <input type="hidden" name="delete_id" value="<%= element._id %>">
+                                <input type="submit" value="Delete">
+                            </form>
+                        </td>
+                      </tr>
+                    <%});%>
+                 </tbody>
+               </table>
+              <% } %>
+            </div>
+      </div>
+    </div>
+  </div>
+<%# USERS REVIEW %>
+<div class="modal fade user-look-modal" tabindex="-1" role="dialog" aria-labelledby="user-look-modal" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      ...
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">User Look Trough</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% if (users) { %>
+         <table class="table text-center table-striped table-sm table-hover table-dark">
+           <thead>
+            
+              <th scope="col">User</th>
+              <th scope="col">Email</th>
+              <th scope="col">Date</th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+           </thead>
+           <tbody>
+              <%users.forEach(element => { %>
+                <tr>
+                  <td><%=element.name%></td>
+                  <td><%=element.email%></td>
+                  <td><%=element.date%></td>
+                  <td>
+                    <form action="" method="post">
+                      <input type="submit" value="Edit">
+                    </form>
+                  </td>
+                  <td>
+                      <form action="/admin/user_delete" method="post">
+                          <input type="hidden" value="<%= element._id %>">
+                          <input type="submit" value="Delete">
+                      </form>
+                  </td>
+                </tr>
+              <%});%>
+           </tbody>
+         </table>
+        <% } %>
+      </div>
     </div>
   </div>
 </div>
 <%# QUESTS %>
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      ...
+<div class="modal fade quest-create-modal" tabindex="-1" role="dialog" aria-labelledby="quest-create-modal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Quest Creation Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/create_quest" method="POST">
+            <div class="form-group">
+              <label for="name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" name="name" id="name">
+            </div>
+            <h3>Condition</h3>
+            <div class="form-row my-3">
+              <div class="col">
+                <label for="mob" class="col-form-label">Who To Kill:</label>
+              </div>
+              <div class="col">
+                <select name="mob" class="form-control" id="mob">
+                  <% mobs.forEach(mob => { %>
+                    <option value="<%= mob.name %>"><%= mob.name %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="col">
+                <label for="mamount"  class="col-form-label">How Many:</label>
+              </div>
+              <div class="col">
+                <input type="number" name="mamount" id="mamount" min="1" class="form-control">
+              </div>
+            </div>
+            <h3>Reward</h3>
+            <div class="form-row my-3">
+                <div class="col">
+                  <label for="item" class="col-form-label">Reward You Get:</label>
+                </div>
+                <div class="col">
+                  <select name="item" class="form-control" id="item">
+                    <% items.forEach(item => { %>
+                      <option value="<%= item.name %>"><%= item.name %></option>
+                    <% }); %>
+                  </select>
+                </div>
+                <div class="col">
+                  <label for="iamount" class="col-form-label">How Many:</label>
+                </div>
+                <div class="col">
+                  <input type="number" name="iamount" id="iamount" min="1" class="form-control">
+                </div>
+              </div>
+            <input type="submit" class="btn btn-lg btn-success" value="CREATE">
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+  <div class="modal fade quest-look-modal" tabindex="-1" role="dialog" aria-labelledby="quest-look-modal" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Quest Look Trough</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <% if (quests) { %>
+             <table class="table table-striped table-sm table-hover table-dark">
+               <thead>
+                
+                  <th scope="col">Name</th>
+                  <th scope="col">Reward</th>
+                  <th scope="col">Condition</th>
+                  <th>&nbsp;</th>
+                  <th>&nbsp;</th>
+               </thead>
+               <tbody>
+                  <%quests.forEach(element => { %>
+                    <tr>
+                      <td><%=element.name%></td>
+                      <td><%=element.cond.get("mamount")%> <%=element.cond.get("mob")%>s</td>
+                      <td><%=element.reward.get("iamount")%> <%=element.reward.get("item")%>s</td>
+                      <td>
+                        <form action="" method="post">
+                          <input type="submit" value="Edit">
+                        </form>
+                      </td>
+                      <td>
+                          <form action="/admin/quest_delete" method="post">
+                              <input type="hidden" name="delete_id" value="<%= element._id %>">
+                              <input type="submit" value="Delete">
+                          </form>
+                      </td>
+                    </tr>
+                  <%});%>
+               </tbody>
+             </table>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 <%# LOCATIONS %>
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -49,10 +231,230 @@
   </div>
 </div>
 <%# ITEMS %>
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div class="modal fade item-create-modal" tabindex="-1" role="dialog" aria-labelledby="item-create-modal" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      ...
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Item Creation Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/create_item" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" name="name" id="name">
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="quest" id="quest" value="true">
+            <label class="form-check-label" for="quest">Quest Related</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="eq" id="eq" value="true">
+            <label class="form-check-label" for="eq">Piece Of Equipment</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="usea" id="usea" value="true" >
+            <label class="form-check-label" for="usea">Usable</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="curr" id="curr" value="true">
+            <label class="form-check-label" for="curr">Currency</label>
+          </div>
+          <div class="form-group">
+            <label for="image">Choose Item Image</label>
+            <input type="file" class="form-control-file" name="image" onchange="readURL(this);" accept="image/*" id="image">
+            <img id="blah" class=" img-thumbnail" src="#" alt="your image" />
+          </div>
+          <div class="form-row mb-3">
+            <div class="col">
+              <label for="str">Strength: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="str" id="str">
+            </div>
+            <div class="col">
+              <label for="agi">Agility: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="agi" id="agi">
+            </div>
+            <div class="col">
+              <label for="int">Intellecence: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="int" id="int">
+            </div>
+            <div class="col">
+              <label for="wis">Wisdom: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="wis" id="wis">
+            </div>
+            <div class="col">
+              <label for="lck">Luck: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="lck" id="lck">
+            </div>
+          </div>
+          <input type="submit" class="btn btn-lg btn-success" value="CREATE">
+        </form>
+      </div>
     </div>
   </div>
 </div>
+<div class="modal fade item-look-modal" tabindex="-1" role="dialog" aria-labelledby="item-look-modal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Item Look Trough</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <% if (items) { %>
+           <table class="table table-striped table-sm table-hover table-dark">
+             <thead>
+              
+                <th scope="col">Name</th>
+                <th scope="col">Stat Boost</th>
+                <th scope="col">Questable</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+             </thead>
+             <tbody>
+                <%items.forEach(element => { %>
+                  <tr>
+                    <td><%=element.name%></td>
+                    <td><%=element.statBoost%></td>
+                    <td><%=element.isQuestable%></td>
+                    <td>
+                      <form action="" method="post">
+                        <input type="submit" value="Edit">
+                      </form>
+                    </td>
+                    <td>
+                        <form action="/admin/item_delete" method="post">
+                            <input type="hidden" name="delete_id" value="<%=element._id%>">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                  </tr>
+                <%});%>
+             </tbody>
+           </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<%# CLASSES CREATE %>
+<div class="modal fade class-create-modal" tabindex="-1" role="dialog" aria-labelledby="class-create-modal" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Class Creation Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/admin/create_class" method="POST" enctype="multipart/form-data">
+          <div class="form-group ">
+            <label for="name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" name="name" id="name">
+          </div>
+          <div class="form-group">
+            <label for="image">Choose Class Image</label>
+            <input type="file" class="form-control-file" name="image" onchange="readURL(this);" accept="image/*" id="image">
+            <img id="blah" class=" img-thumbnail" src="#" alt="your image" />
+          </div>
+          <div class="form-row mb-3">
+            <div class="col">
+              <label for="str">Strength: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="str" id="str">
+            </div>
+            <div class="col">
+              <label for="agi">Agility: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="agi" id="agi">
+            </div>
+            <div class="col">
+              <label for="int">Intellecence: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="int" id="int">
+            </div>
+            <div class="col">
+              <label for="wis">Wisdom: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="wis" id="wis">
+            </div>
+            <div class="col">
+              <label for="lck">Luck: </label>
+              <input type="number" class="form-control" min="1" placeholder="1" name="lck" id="lck">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" rows="5" name="description" id="description"></textarea>
+          </div>
+          <input type="submit" class="btn btn-lg btn-success" value="CREATE">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade class-look-modal" tabindex="-1" role="dialog" aria-labelledby="class-look-modal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Class Look Trough</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <% if (classes) { %>
+           <table class="table text-center table-striped table-sm table-hover table-dark">
+             <thead>
+              
+                <th scope="col">Class name</th>
+                <th scope="col">Class stats </th>
+                <th scope="col">Class description </th>
+
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+             </thead>
+             <tbody>
+                <%classes.forEach(element => { %>
+                  <tr>
+                    <td><%=element.name%></td>
+                    <td>Str: <%=element.stats.get("Strength")%>, Int: <%=element.stats.get("Intellegence")%>, Agi: <%=element.stats.get("Agility")%>, Wis: <%=element.stats.get("Wisdom")%>, Lck: <%=element.stats.get("Luck")%></td>
+                    <td><%=element.desc%></td>
+                    <td>
+                      <form action="" method="post">
+                        <input type="submit" value="Edit">
+                      </form>
+                    </td>
+                    <td>
+                        <form action="/admin/class_delete" method="post">
+                            <input type="hidden" name="delete_id" value="<%=element._id%>">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                  </tr>
+                <%});%>
+             </tbody>
+           </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(350)
+                    .height(350);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script> 

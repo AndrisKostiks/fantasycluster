@@ -13,6 +13,10 @@
         <button class="btn btn-outline-info my-3 btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
             Create Character
         </button>
+        <form id="j_delete_form" class="d-none" method="POST" action="/delete_player">
+            <input class="btn btn-outline-danger my-3 btn-sm" type="submit" role="button" value="Delete Character">
+            <input hidden class="j_delete_player" name="player_delete_id" id="player_delete_id" value="">
+        </form>
         <div class="row">
             <div class="col-3 mx-auto">
             <form id="j_enter_form" action="/game/" method="GET">
@@ -45,5 +49,5 @@
         </div>
     </div>
     <% } %>
-    <script src='/scripts/enter.js'> </script>
+    <script src='assets/scripts/enter.js'> </script>
 <% include ./partials/player_form %>

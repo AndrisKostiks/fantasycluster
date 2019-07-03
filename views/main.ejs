@@ -1,49 +1,54 @@
 <% include ./partials/player_stats_modal %>
+<% include ./partials/main_modals %>
 <div class="row sticky-top bg-secondary">
     <div class="col-md-3 my-3 text-left col-6">
         <h3 class="mb-0 text-danger">
-            <%= player.name %>
+            <%= player[0].name %>
         </h3>
     </div>
     <div class="col-md-6"></div>
     <div class="col-md-3 my-3 text-right col-6">
-        <% if(player.exp === (player.lvl*10)) { %>
-            <button type="button" role="button"  class=" btn btn-sm btn-outline-success mb-0">
+        <% if(stats[0].exp === (stats[0].lvl*10)) { %>
+            <button type="button" role="button" data-toggle="modal" data-target=".lvl-modal" class=" btn btn-sm btn-outline-success mb-0">
                     LEVEL UP!
             </button>
         <% } %>
         <button role="button" type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class=" btn btn-sm btn-outline-info mb-0">
             statistics
         </button>
+        <a  href='/dashboard'  class=" btn btn-sm btn-outline-danger mb-0">
+            RETURN
+        </a>
     </div>
     <div class="col-12">
         <div class="progress">
-            <div class="progress-bar progress-bar-striped bg-warning" style="width: <%= player.exp/(player.lvl*10)*100 %>%" role="progressbar" aria-valuenow="<%= player.exp %>" aria-valuemin="0" aria-valuemax="<%= player.exp * 10%>"> EXP :<%= player.exp%>/ <%= player.lvl*10%>  </div>
+            <div class="progress-bar text-dark progress-bar-striped bg-warning" style="width: <%= stats[0].exp/(stats[0].lvl*10)*100 %>%" role="progressbar" aria-valuenow="<%= stats[0].exp %>" aria-valuemin="0" aria-valuemax="<%= stats[0].exp * 10%>"> EXP :<%= stats[0].exp%>/ <%= stats[0].lvl*10%>  </div>
         </div>
     </div>
 </div>
 <div class="card my-3">
-    <img class="card-img-top" style="height: 27.6875rem;" src="/img/guild.jpg" alt="Card image cap">
+    <img class="card-img-top" style="height: 27.6875rem;" src="/assets/img/guild.jpg" alt="Card image cap">
     <div class="card-body">
         <h5 class="card-title">Adventurers Guild</h5>
         <p class="card-text">Find people in need of a real adventurer like you. Find new friends. And drink some good
             mutafruit beer before your adventure!</p>
-        <a href="#" class="btn btn-primary">Step inside</a>
+        <button data-toggle="modal" data-target=".tavern-modal" class="btn btn-primary">Step inside</button>
+        
     </div>
 </div>
 <div class="card my-3">
-    <img class="card-img-top" src="/img/forest.jpg" style="height: 27.6875rem;" alt="Card image cap">
+    <img class="card-img-top" src="/assets/img/forest.jpg" style="height: 27.6875rem;" alt="Card image cap">
     <div class="card-body">
         <h5 class="card-title">Mystical Forest</h5>
         <p class="card-text">Here live many monsters that bother our village, slay them to get your reward. </p>
         <form action="/game/fight" method="GET">
-            <input type="hidden" name="id" id="id" value="<%= player._id %>">
+            <input type="hidden" name="id" id="id" value="<%= player[0]._id %>">
             <button type="submit" class="btn btn-primary">Step inside</button>
         </form>
     </div>
 </div>
 <div class="card my-3">
-        <img class="card-img-top" src="/img/colleseum.jpg" style="height: 27.6875rem;" alt="Card image cap">
+        <img class="card-img-top" src="/assets/img/colleseum.jpg" style="height: 27.6875rem;" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">Arena of Heroes</h5>
             <p class="card-text text-muted text-decoration-striketrough">Challange yourself to a duel between you and other adventurers. Get heaps of experience to help you grow as a Champion.

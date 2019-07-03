@@ -7,53 +7,88 @@
             <h2 class="mb-0 text-info">admin panel</h2>
         </div>
     </div>
-    <div class="col-md-4 col-12">
-        <h3 class="text-center">Mobs</h3>
-        <div class="d-flex flex-column ">
-            <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target=".user-create-modal">Create</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-warning">Update</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-danger">Delete</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-info">Look Trough</button>
+    <div class="col-9">
+        <div class="d-flex flex-parent flex-wrap">
+            <div class="flex-child">
+                <h3 class="text-center">Mobs</h3>
+                <div class="d-flex flex-column ">
+                    <button class="btn btn-sm btn-block btn-success" data-toggle="modal"
+                        data-target=".mob-create-modal">Create</button>
+                  
+                    <button data-toggle="modal"
+                        data-target=".mob-look-modal" class="btn btn-sm btn-info">Look Trough</button>
+                </div>
+            </div>
+            <div class="flex-child">
+                <h3 class="text-center">Users</h3>
+                <div class="d-flex flex-column ">
+                    <button class="btn btn-sm btn-block btn-success">Create</button>
+                    
+                    <button data-toggle="modal" data-target=".user-look-modal" class="btn btn-sm btn-info">Look
+                        Trough</button>
+                </div>
+            </div>
+            <div class="flex-child">
+                <h3 class="text-center">Quests</h3>
+                <div class="d-flex flex-column ">
+                    <button data-toggle="modal" data-target=".quest-create-modal" class="btn btn-sm btn-block btn-success">Create</button>
+                    <button data-toggle="modal"
+                        data-target=".quest-look-modal" class="btn  btn-sm btn-info">Look Trough</button>
+                </div>
+            </div>
+            <div class="flex-child position-relative">
+                <div class="position-absolute w-100 h-100" style="background-color: #00000090"></div>
+                <h3 class="text-center">Locations</h3>
+                <div class="d-flex flex-column ">
+                    <button class="btn  btn-sm btn-block btn-success">Create</button>
+                    
+                    <button class="btn   btn-sm btn-info">Look Trough</button>
+
+                </div>
+            </div>
+            <div class="flex-child">
+                <h3 class="text-center">Items</h3>
+                <div class="d-flex flex-column ">
+                    <button data-toggle="modal" data-target=".item-create-modal"
+                        class="btn btn-sm btn-block btn-success">Create</button>
+                    
+                    <button data-toggle="modal"
+                        data-target=".item-look-modal" class="btn  btn-sm btn-info">Look Trough</button>
+                </div>
+            </div>
+            <div class="flex-child">
+                <h3 class="text-center">Classes</h3>
+                <div class="d-flex flex-column ">
+                    <button data-toggle="modal" data-target=".class-create-modal"
+                        class="btn btn-sm btn-block btn-success">Create</button>
+                   
+                    <button data-toggle="modal"
+                        data-target=".class-look-modal" class="btn  btn-sm btn-info">Look Trough</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-md-4 col-12">
-        <h3 class="text-center">Users</h3>
-        <div class="d-flex flex-column ">
-            <button class="btn btn-sm btn-block btn-success">Create</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-warning">Update</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-danger">Delete</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-info">Look Trough</button>
-
-        </div>
-    </div>
-    <div class="col-md-4 col-12">
-        <h3 class="text-center">Quests</h3>
-        <div class="d-flex flex-column ">
-            <button class="btn btn-sm btn-block btn-success">Create</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-warning">Update</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-danger">Delete</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-info">Look Trough</button>
-
-        </div>
-    </div>
-    <div class="col-md-4 col-12">
-        <h3 class="text-center">Locations</h3>
-        <div class="d-flex flex-column ">
-            <button class="btn btn-sm btn-block btn-success">Create</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-warning">Update</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-danger">Delete</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-info">Look Trough</button>
-
-        </div>
-    </div>
-    <div class="col-md-4 col-12">
-        <h3 class="text-center">Items</h3>
-        <div class="d-flex flex-column ">
-            <button class="btn btn-sm btn-block btn-success">Create</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-warning">Update</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-danger">Delete</button>
-            <button disabled aria-disabled="true" class="btn disabled btn-sm btn-info">Look Trough</button>
-
-        </div>
+    <div class="col-3 text-center">
+        <h3 class="mb-0 text-warning">Log</h2>
+            <div class="rounded border border-warning" style="background-color:gainsboro; min-height: 500px;">
+                <% logs.forEach(element => { %>
+                    <p class="small my-0">
+                    Who: <%= element.who %> 
+                    </p>
+                    <p class="small my-0">
+                    What: <%= element.what %> 
+                    </p>
+                    <p class="small my-0">
+                    When: <%= element.when %> 
+                    </p>
+                    <br>
+                <% }); %>
+            </div>
     </div>
 </div>
+<style>
+.flex-parent>.flex-child {
+  flex: 0 45%;
+  margin: 0.5rem 1rem;
+}
+</style>
